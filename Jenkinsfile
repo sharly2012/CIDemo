@@ -45,7 +45,7 @@ pipeline {
         stage('Execute'){
             steps {
                 echo 'This is Execute Test part ...'
-                sh 'pytest testcases --alluredir ${WORKSPACE}/report/${BUILD_ID}/xml'
+                sh 'venv/bin/python -m pytest testcases --alluredir ${WORKSPACE}/report/${BUILD_ID}/xml'
             }
         }
         stage('Report'){

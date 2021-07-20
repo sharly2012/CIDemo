@@ -27,17 +27,17 @@ pipeline {
             post{
                 failure {
                     script {
-                        sh 'echo "The job failure"'
+                        sh 'echo "Build Environment failure"'
                     }
                 }
                 success {
                     script {
-                        sh 'echo "The job success"'
+                        sh 'echo "Build Environment success"'
                     }
                 }
                 aborted {
                     script {
-                        sh 'echo "The job aborted"'
+                        sh 'echo "Build Environment aborted"'
                     }
                 }
             }
@@ -47,11 +47,45 @@ pipeline {
                 echo 'This is Execute Test part ...'
                 sh 'venv/bin/python -m pytest testcases --alluredir ${WORKSPACE}/report/${BUILD_ID}/xml'
             }
+            post{
+                failure {
+                    script {
+                        sh 'echo "Execute The job failure"'
+                    }
+                }
+                success {
+                    script {
+                        sh 'echo "Execute The job success"'
+                    }
+                }
+                aborted {
+                    script {
+                        sh 'echo "Execute The job aborted"'
+                    }
+                }
+            }
         }
         stage('Report'){
             steps {
                 echo 'This is report'
                 allure includeProperties: false, jdk: '', results: [[path: 'report/${BUILD_ID}/xml']]
+            }
+            post{
+                failure {
+                    script {
+                        sh 'echo "Generate report failure"'
+                    }
+                }
+                success {
+                    script {
+                        sh 'echo "Generate report success"'
+                    }
+                }
+                aborted {
+                    script {
+                        sh 'echo "Generate report aborted"'
+                    }
+                }
             }
         }
     }

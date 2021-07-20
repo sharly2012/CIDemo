@@ -8,7 +8,7 @@ def test_01():
 
 @allure.title('test_02')
 def test_02():
-    assert 1 + 2 == 4
+    assert 1 + 2 == 3
 
 
 @allure.title('test_03')

@@ -20,7 +20,7 @@ pipeline {
             }
             steps {
                 echo 'This is the Build Environment part ...'
-                sh '''python3 -m venv
+                sh '''python3 -m venv venv
                     source venv/bin/activate
                     pip install -r requirements.txt'''
             }

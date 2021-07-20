@@ -6,7 +6,7 @@ pipeline {
         DEPLOY_TO = "production"
     }
     stages {
-        stage('Execute') {
+        stage('Build Environment') {
             when {
                 anyOf {
                     expression {
@@ -19,7 +19,10 @@ pipeline {
                 }
             }
             steps {
-                echo 'This is the execute part ...'
+                echo 'This is the Build Environment part ...'
+                sh '''python3 -m venv
+                    source venv/bin/activate
+                    pip install -r requirements.txt'''
             }
             post{
                 failure {
@@ -39,10 +42,16 @@ pipeline {
                 }
             }
         }
+        stage('Execute'){
+            steps {
+                echo 'This is Execute Test part ...'
+                sh 'pytest testcases --alluredir ${WORKSPACE}/report/${BUILD_ID}/xml'
+            }
+        }
         stage('Report'){
             steps {
                 echo 'This is report'
-                sh 'echo $PATH'
+                allure includeProperties: false, jdk: '', results: [[path: 'report/${BUILD_ID}/xml']]
             }
         }
     }
